@@ -1,0 +1,69 @@
+{
+  "name": "mcp-server-il-benefits",
+  "mcpName": "io.github.ofershap/il-benefits",
+  "version": "0.1.0",
+  "description": "MCP server and agent skill for Israeli shoppers: in a store, which card, club or voucher saves you money? Wallet-aware, local-first, open dataset with a source for every benefit.",
+  "type": "module",
+  "bin": {
+    "mcp-server-il-benefits": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "data",
+    "plugin.json",
+    "mcp.json",
+    "skills",
+    "llms.txt"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "validate-data": "vitest run tests/data.test.ts",
+    "format": "prettier --write .",
+    "lint": "prettier --check ."
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "israel",
+    "credit-card",
+    "benefits",
+    "discounts",
+    "coupons",
+    "loyalty",
+    "gift-card",
+    "cashback",
+    "hebrew",
+    "agent-skill",
+    "ai",
+    "llm",
+    "claude",
+    "cursor"
+  ],
+  "author": "Ofer Shapira",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ofershap/mcp-server-il-benefits.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ofershap/mcp-server-il-benefits/issues"
+  },
+  "homepage": "https://github.com/ofershap/mcp-server-il-benefits#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "prettier": "^3.3.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0"
+  }
+}

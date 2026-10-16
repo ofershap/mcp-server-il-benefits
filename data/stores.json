@@ -1,0 +1,77 @@
+[
+  {
+    "id": "rami-levy",
+    "names": { "he": "רמי לוי", "en": "Rami Levy" },
+    "aliases": ["רמי לוי שיווק השקמה", "rami levy hashikma"],
+    "category": "supermarket"
+  },
+  {
+    "id": "carrefour",
+    "names": { "he": "קרפור", "en": "Carrefour" },
+    "aliases": ["קארפור", "יינות ביתן קרפור"],
+    "category": "supermarket"
+  },
+  {
+    "id": "fox",
+    "names": { "he": "פוקס", "en": "Fox" },
+    "aliases": ["fox home", "פוקס הום"],
+    "category": "fashion"
+  },
+  {
+    "id": "golf",
+    "names": { "he": "גולף", "en": "Golf" },
+    "aliases": ["golf kids", "גולף קידס"],
+    "category": "fashion"
+  },
+  { "id": "mango", "names": { "he": "מנגו", "en": "Mango" }, "aliases": [], "category": "fashion" },
+  { "id": "shilav", "names": { "he": "שילב", "en": "Shilav" }, "aliases": [], "category": "kids" },
+  {
+    "id": "factory-54",
+    "names": { "he": "פקטורי 54", "en": "Factory 54" },
+    "aliases": ["factory54", "פקטורי"],
+    "category": "fashion"
+  },
+  {
+    "id": "urbanica",
+    "names": { "he": "אורבניקה", "en": "Urbanica" },
+    "aliases": [],
+    "category": "fashion"
+  },
+  {
+    "id": "hodis",
+    "names": { "he": "הודיס", "en": "Hodis" },
+    "aliases": [],
+    "category": "fashion"
+  },
+  {
+    "id": "electra-consumer",
+    "names": { "he": "מחסני חשמל", "en": "Electra Consumer (Machsanei Hashmal)" },
+    "aliases": ["אלקטרה", "electra", "machsanei hashmal"],
+    "category": "electronics"
+  },
+  {
+    "id": "home-center",
+    "names": { "he": "הום סנטר", "en": "Home Center" },
+    "aliases": ["homecenter"],
+    "category": "home"
+  },
+  { "id": "wolt", "names": { "he": "וולט", "en": "Wolt" }, "aliases": [], "category": "delivery" },
+  {
+    "id": "mcdonalds",
+    "names": { "he": "מקדונלדס", "en": "McDonald's" },
+    "aliases": ["מק דונלדס", "mcdonald", "מקדונלד"],
+    "category": "restaurants"
+  },
+  {
+    "id": "planet-cinema",
+    "names": { "he": "פלאנט", "en": "Planet Cinemas" },
+    "aliases": ["יס פלאנט", "פלאנט קולנוע", "planet", "rav chen planet", "רב חן"],
+    "category": "cinema"
+  },
+  {
+    "id": "htzone-site",
+    "names": { "he": "אתר הייטקזון", "en": "HTZone online store" },
+    "aliases": ["הייטקזון", "htzone", "hitech zone", "hi-tech zone"],
+    "category": "online"
+  }
+]

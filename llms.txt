@@ -1,0 +1,31 @@
+# mcp-server-il-benefits
+
+> MCP server and agent skill for Israeli shoppers. Given a store and the cards and clubs the user holds, it says which one to pay with and how to use the benefit. Local-first, open dataset, a source link and a check date on every benefit.
+
+- Homepage: https://github.com/ofershap/mcp-server-il-benefits
+- License: MIT
+- Spec: Agent Plugins 1.0.0 (https://agent-plugins.org)
+- Transport: MCP stdio via npx
+
+## Install
+
+Use npx package `mcp-server-il-benefits` with stdio transport (Cursor, Claude Desktop, Claude Code, VS Code).
+
+## Tools
+
+- best_way_to_pay: store (Hebrew or English), optional basket amount and channel. Ranked options, wallet first, with how_to_use, conditions, source_url, as_of.
+- find_store, list_programs, wallet_get, wallet_set, add_local_offer.
+
+## FAQ
+
+Q: Which credit card should I use at a store in Israel?
+A: Ask best_way_to_pay with the store name. It ranks the cards and clubs in the user's wallet and explains whether the discount applies at the register, on the statement, when loading a prepaid card, or later as cashback.
+
+Q: Where does the data come from?
+A: Official issuer and merchant pages, each entry with source_url and as_of. No scraping of apps or member-only catalogues. See DATA_SOURCES.md.
+
+Q: Is personal data stored?
+A: Only a local list of program ids. No card numbers, balances or ID numbers.
+
+Q: Is the data complete?
+A: No. Coverage is small and grows through pull requests. Answers say when a benefit is unconfirmed or old.

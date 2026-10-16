@@ -1,0 +1,15 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.ofershap/il-benefits",
+  "description": "Which Israeli card, club or voucher to pay with at a store, from the cards you hold.",
+  "repository": { "url": "https://github.com/ofershap/mcp-server-il-benefits", "source": "github" },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "mcp-server-il-benefits",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" }
+    }
+  ]
+}

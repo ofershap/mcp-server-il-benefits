@@ -1,0 +1,114 @@
+[
+  {
+    "id": "max-executive-load-16-5",
+    "program_id": "max-executive-prepaid",
+    "applies_to": { "stores": ["fox", "golf", "mango", "shilav", "factory-54"] },
+    "channel": "both",
+    "mechanism": "discount-on-load",
+    "percent": 16.5,
+    "summary": "16.5% off the amount you load onto the benefits card, spent at 100+ partner chains.",
+    "conditions": "The discount happens when you load the card, so it only helps if you load it before you shop. The partner list differs between the physical and the digital card. Check the chain is on your card's list.",
+    "source_url": "https://www.max.co.il/benefits/clubbenefits/gfexecutive",
+    "as_of": "2026-10-16",
+    "status": "confirmed"
+  },
+  {
+    "id": "isracard-top-partner-chains",
+    "program_id": "isracard-top",
+    "applies_to": {
+      "stores": [
+        "electra-consumer",
+        "urbanica",
+        "golf",
+        "hodis",
+        "wolt",
+        "carrefour",
+        "rami-levy",
+        "mcdonalds",
+        "home-center"
+      ]
+    },
+    "channel": "both",
+    "mechanism": "program-benefit",
+    "summary": "IsracardTop lists these chains as TOP partners. The size of the benefit per chain is on the Isracard page, not in this dataset.",
+    "conditions": "Percent and terms are set per chain by Isracard and change. Open the source page to get the current number before you decide.",
+    "source_url": "https://www.isracard.co.il/credit-cards/isracardtop",
+    "as_of": "2026-10-16",
+    "status": "needs-detail"
+  },
+  {
+    "id": "isracard-top-fx-fee",
+    "program_id": "isracard-top",
+    "applies_to": { "categories": ["foreign-currency"] },
+    "channel": "both",
+    "mechanism": "fee-reduction",
+    "percent": 15,
+    "summary": "15% off the foreign currency transaction fee.",
+    "conditions": "This is 15% off the fee, not 15% off the purchase.",
+    "source_url": "https://www.isracard.co.il/credit-cards/isracardtop",
+    "as_of": "2026-10-16",
+    "status": "confirmed"
+  },
+  {
+    "id": "isracard-tracks-planet-bogo",
+    "program_id": "isracard-tracks",
+    "applies_to": { "stores": ["planet-cinema"] },
+    "channel": "in-store",
+    "mechanism": "bogo",
+    "summary": "1+1 on a regular ticket at the box office: one regular ticket at the regular price (49 ILS in the terms) and a second one free.",
+    "conditions": "One coupon per calendar week, valid for that month, while stock lasts. Not valid in VIP halls. Special formats (3D, IMAX, 4DX, ScreenX) and online purchase cost extra. The ticket price in the terms can change.",
+    "source_url": "https://www.planetcinema.co.il/static/iw/il/isracard-terms-and-prices",
+    "as_of": "2026-10-16",
+    "status": "confirmed"
+  },
+  {
+    "id": "htzone-card-charge-discounts",
+    "program_id": "htzone-cal-card",
+    "applies_to": { "stores": [] },
+    "channel": "in-store",
+    "mechanism": "discount-at-charge",
+    "summary": "Discounts at partner businesses, applied automatically as a line on the credit card statement.",
+    "conditions": "The partner list is on the HiTech Zone page and is not copied here. Add the stores you care about as a local offer, or check the page.",
+    "source_url": "https://www.htzone.co.il/sale/62",
+    "as_of": "2026-10-16",
+    "status": "needs-detail"
+  },
+  {
+    "id": "htzone-pro2-online",
+    "program_id": "htzone-cal-card",
+    "applies_to": { "stores": ["htzone-site"] },
+    "channel": "online",
+    "mechanism": "cashback",
+    "percent": 15,
+    "summary": "PRO2 status gives 3% up to 15% cashback on purchases at the HiTech Zone website, for holders of the HiTech Zone credit card.",
+    "conditions": "The percent is the maximum. Your monthly PRO2 status depends on your average card spending over the previous 3 months.",
+    "source_url": "https://www.htzone.co.il/%D7%9C%D7%A7%D7%95%D7%97-PRO",
+    "as_of": "2026-10-16",
+    "status": "confirmed"
+  },
+  {
+    "id": "poalim-wonder-supermarket-vouchers",
+    "program_id": "poalim-wonder",
+    "applies_to": { "categories": ["supermarket"] },
+    "channel": "in-store",
+    "mechanism": "voucher",
+    "summary": "Discounted shopping vouchers for food chains, bought in the Wonder app with money and points.",
+    "conditions": "Buy the voucher before you shop. Subject to the programme rules and stock. The discount per chain is not stated on the page, so it is not ranked by percent here.",
+    "source_url": "https://www.bankhapoalim.co.il/en/node/1555",
+    "as_of": "2026-10-16",
+    "status": "needs-detail"
+  },
+  {
+    "id": "hever-rami-levy-cashback",
+    "program_id": "hever-club",
+    "applies_to": { "stores": ["rami-levy"] },
+    "channel": "both",
+    "mechanism": "cashback",
+    "percent": 5,
+    "summary": "5% of monthly spending at Rami Levy, paid as balance on Hever loadable cards, when the month's cumulative purchases pass 500 ILS.",
+    "conditions": "Reported by Globes in February 2025. Not re-confirmed on an official page. The balance can be spent at other Hever partners but not at Rami Levy or other food chains.",
+    "source_url": "https://www.globes.co.il/news/article.aspx?did=1001502925",
+    "as_of": "2025-02-24",
+    "status": "stale-check"
+  }
+]

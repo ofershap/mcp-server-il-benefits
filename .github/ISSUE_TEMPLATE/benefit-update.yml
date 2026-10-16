@@ -1,0 +1,24 @@
+name: Benefit missing or out of date
+description: A card, club or voucher benefit that is wrong or not in the dataset
+labels: [data]
+body:
+  - type: input
+    id: store
+    attributes:
+      label: Store or chain
+    validations: { required: true }
+  - type: input
+    id: program
+    attributes:
+      label: Card, club or program
+    validations: { required: true }
+  - type: textarea
+    id: what
+    attributes:
+      label: What the benefit is and how it is used (at charge, on load, voucher, cashback)
+    validations: { required: true }
+  - type: input
+    id: source
+    attributes:
+      label: Official source URL
+    validations: { required: true }
