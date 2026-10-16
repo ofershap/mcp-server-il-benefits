@@ -9,7 +9,7 @@
 
 ## Install
 
-Use npx package `mcp-server-il-benefits` with stdio transport (Cursor, Claude Desktop, Claude Code, VS Code).
+Use `npx -y github:ofershap/mcp-server-il-benefits` with stdio transport (Cursor, Claude Desktop, Claude Code, VS Code).
 
 ## Tools
 

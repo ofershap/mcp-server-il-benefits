@@ -14,8 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/mcp-server-il-benefits"><img src="https://img.shields.io/npm/v/mcp-server-il-benefits.svg" alt="npm version" /></a>
-  <a href="https://www.npmjs.com/package/mcp-server-il-benefits"><img src="https://img.shields.io/npm/dm/mcp-server-il-benefits.svg" alt="npm downloads" /></a>
+  <a href="https://github.com/ofershap/mcp-server-il-benefits/stargazers"><img src="https://img.shields.io/github/stars/ofershap/mcp-server-il-benefits?style=flat" alt="GitHub stars" /></a>
   <a href="https://github.com/ofershap/mcp-server-il-benefits/actions/workflows/ci.yml"><img src="https://github.com/ofershap/mcp-server-il-benefits/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-strict-blue.svg" alt="TypeScript" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
@@ -23,15 +22,15 @@
 </p>
 
 ```bash
-npx mcp-server-il-benefits
+npx -y github:ofershap/mcp-server-il-benefits
 ```
 
 > Works with Claude Desktop, Cursor, VS Code Copilot, and any MCP client. No API key. No account. Your wallet (a list of names) never leaves your machine.
 
 <p align="center">
-  <a href="cursor://anysphere.cursor-deeplink/mcp/install?name=il-benefits&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1jcC1zZXJ2ZXItaWwtYmVuZWZpdHMiXX0="><img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor" height="32" /></a>
+  <a href="cursor://anysphere.cursor-deeplink/mcp/install?name=il-benefits&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImdpdGh1YjpvZmVyc2hhcC9tY3Atc2VydmVyLWlsLWJlbmVmaXRzIl19"><img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor" height="32" /></a>
   &nbsp;
-  <a href="vscode:mcp/install?%7B%22name%22%3A%22il-benefits%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22mcp-server-il-benefits%22%5D%7D"><img src="https://img.shields.io/badge/Add_to_VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Add to VS Code" /></a>
+  <a href="vscode:mcp/install?%7B%22name%22%3A%22il-benefits%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22github%3Aofershap%2Fmcp-server-il-benefits%22%5D%7D"><img src="https://img.shields.io/badge/Add_to_VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Add to VS Code" /></a>
 </p>
 
 ## Why this exists
@@ -81,7 +80,7 @@ Add to `.cursor/mcp.json`:
   "mcpServers": {
     "il-benefits": {
       "command": "npx",
-      "args": ["-y", "mcp-server-il-benefits"]
+      "args": ["-y", "github:ofershap/mcp-server-il-benefits"]
     }
   }
 }
@@ -94,7 +93,7 @@ Add the same block to `claude_desktop_config.json`.
 ### Claude Code
 
 ```bash
-claude mcp add il-benefits -- npx -y mcp-server-il-benefits
+claude mcp add il-benefits -- npx -y github:ofershap/mcp-server-il-benefits
 ```
 
 ### VS Code
@@ -105,7 +104,7 @@ Add to user settings or `.vscode/mcp.json`:
 {
   "mcp": {
     "servers": {
-      "il-benefits": { "command": "npx", "args": ["-y", "mcp-server-il-benefits"] }
+      "il-benefits": { "command": "npx", "args": ["-y", "github:ofershap/mcp-server-il-benefits"] }
     }
   }
 }

@@ -4,7 +4,7 @@
     "il-benefits": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "mcp-server-il-benefits"]
+      "args": ["-y", "github:ofershap/mcp-server-il-benefits"]
     }
   }
 }
