@@ -36,9 +36,11 @@ npx mcp-server-il-benefits
 
 ## Why this exists
 
-A friend of the author went to a mall, joined a club, loaded a prepaid card with 250 shekels for 187.5, bought a 100 shekel voucher for 59, and noticed that at every checkout another couple was fiddling with coupons. The savings are real. finding them at the checkout is the problem.
+You stand at the checkout at Castro with a bag of clothes. The person in front of you is fiddling with a coupon. You have a credit card, a club card and a few apps, and no idea which one saves you money. Some savings only work if you act **before** you pay: a friend of the author loaded a prepaid card with 250 shekels for 187.5 at a mall, bought a 100 shekel voucher for 59, and noticed another couple at every checkout doing the same dance.
 
-The idea: you tell your agent "I'm at store X", and it checks what is available and tells you what to do **before** you pay. Sometimes that is a card. More often it is "buy this discounted gift card first" or "open the store through this cashback link".
+Today it finds cashback and discounted gift cards for stores such as Fox, Golf, Terminal X, Home Center, Zer4u, adidas, ASOS, Shein, AliExpress, iHerb, Booking.com and Expedia (each one checked live through this server on 2026-10-16). Coverage is mostly online stores, and many chains, Castro included, return nothing yet.
+
+The idea: you tell your agent "I'm at store X", and it checks what is available and tells you what to do before you pay. Sometimes that is "buy this discounted gift card first". Sometimes it is "open the store through this cashback link first".
 
 The data for that already exists, aggregated by other people. Building a second database would be pointless and would copy someone else's work. So this project is only the connection: a small MCP server and a skill that let your agent ask an existing aggregator one question at a time, and answer you with the source and the link.
 
@@ -52,7 +54,7 @@ The data for that already exists, aggregated by other people. Building a second 
 
 ## Coverage today (read this first)
 
-The only source shipped is [GotCashback](https://www.gotcashback.com/), because its terms explicitly welcome AI agents that fetch current information to answer a user's question (section 5). It covers cashback portals and discounted gift cards. In Israel it lists a few hundred stores, so many chains return nothing.
+The only source shipped is [GotCashback](https://www.gotcashback.com/), because its terms explicitly welcome AI agents that fetch current information to answer a user's question (section 5). It covers cashback portals and discounted gift cards. In Israel it lists a few hundred stores, so many chains return nothing. Hebrew store names match better than English ones (for example `סופר פארם` found a result where `Super-Pharm` did not).
 
 It does **not** know the benefits of your credit card, bank club or employer club at a given store. The databases that hold those are third-party sites whose terms do not allow automated access, so they are not connected. See [DATA_SOURCES.md](DATA_SOURCES.md) for each source, the terms clause that decided it, and the date it was checked. The server is built so another source can be added the day its owner permits it.
 

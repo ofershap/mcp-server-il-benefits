@@ -19,7 +19,7 @@ Use npx package `mcp-server-il-benefits` with stdio transport (Cursor, Claude De
 
 ## Coverage
 
-Shipped source: GotCashback (terms section 5 welcomes AI agents). Covers cashback portals and discounted gift cards, a few hundred Israeli stores. It does not cover credit card or club benefits per store: those databases do not permit automated access. See DATA_SOURCES.md.
+Shipped source: GotCashback (terms section 5 welcomes AI agents). Covers cashback portals and discounted gift cards, a few hundred Israeli stores, mostly online. Verified live on 2026-10-16: Fox, Golf, Terminal X, Home Center, Zer4u, adidas, ASOS, Shein, AliExpress, iHerb, Booking.com, Expedia. Many chains (Castro, Rami Levy, Ikea) return nothing. Hebrew names match better. It does not cover credit card or club benefits per store: those databases do not permit automated access. See DATA_SOURCES.md.
 
 ## FAQ
 

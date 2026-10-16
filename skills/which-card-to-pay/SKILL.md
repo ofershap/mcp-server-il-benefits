@@ -10,7 +10,7 @@ Uses the `il-benefits` MCP server (`npx -y mcp-server-il-benefits`). It asks an 
 ## Steps
 
 1. Call `wallet_get`. If it is empty, ask once which cashback portals or gift card sellers the user uses, then `wallet_set` with names only. Skip this if the user is in a hurry. Never ask for card numbers or balances.
-2. Call `best_way_to_pay` with the store as the user said it (Hebrew or English). Add `amount` if they gave a basket size and `channel` if it is online.
+2. Call `best_way_to_pay` with the store as the user said it (Hebrew or English). If an English name returns nothing, retry once with the Hebrew name. Add `amount` if they gave a basket size and `channel` if it is online.
 3. Lead with the action and its timing, because the saving is usually before the checkout: "Buy a discounted gift card first (7%), then pay with it" or "Open the store through this link first (4.5% cashback later)". Use `how_to_use`. Prefer options with `held: true`.
 4. Show every `link` exactly as returned, and the source attribution from `sources`. These are required by the source's terms.
 5. If `options` is empty, say no connected source has this store and do not guess. Suggest the user check their own card or club app, and that those are not covered here.
