@@ -5,7 +5,7 @@
 <h1 align="center">mcp-server-il-benefits</h1>
 
 <p align="center">
-  <strong>You are at the till in Israel. Which card, club or voucher do you pay with?</strong>
+  <strong>You are at the checkout in Israel. Which card, club or voucher do you pay with?</strong>
 </p>
 
 <p align="center">
@@ -36,7 +36,7 @@ npx mcp-server-il-benefits
 
 ## Why this exists
 
-A friend of the author went to a mall, joined a club, loaded a prepaid card with 250 shekels for 187.5, bought a 100 shekel voucher for 59, and noticed that at every till another couple was fiddling with coupons. The savings are real. Finding them at the till is the problem.
+A friend of the author went to a mall, joined a club, loaded a prepaid card with 250 shekels for 187.5, bought a 100 shekel voucher for 59, and noticed that at every checkout another couple was fiddling with coupons. The savings are real. finding them at the checkout is the problem.
 
 The idea: you tell your agent "I'm at store X", and it checks what is available and tells you what to do **before** you pay. Sometimes that is a card. More often it is "buy this discounted gift card first" or "open the store through this cashback link".
 
