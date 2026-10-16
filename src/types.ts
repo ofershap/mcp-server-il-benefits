@@ -1,62 +1,44 @@
-import { z } from "zod";
+export type BenefitKind = "cashback" | "gift-card";
 
-export const MECHANISMS = [
-  "discount-at-charge",
-  "discount-on-load",
-  "cashback",
-  "voucher",
-  "bogo",
-  "fee-reduction",
-  "program-benefit",
-] as const;
+/** One live result from a source. Nothing here is stored. */
+export interface Benefit {
+  kind: BenefitKind;
+  source: string;
+  provider: string;
+  store: string;
+  percent?: number;
+  upto?: boolean;
+  channel?: "online" | "in-store" | "both";
+  how_to_use: string;
+  link: string;
+}
 
-export const STATUSES = ["confirmed", "needs-detail", "stale-check", "user-supplied"] as const;
+export interface SourceResult {
+  source: string;
+  attribution: string;
+  store_page?: string;
+  fetched_at: string;
+  benefits: Benefit[];
+}
 
-export const StoreSchema = z.object({
-  id: z.string().regex(/^[a-z0-9-]+$/),
-  names: z.object({ he: z.string().min(1), en: z.string().min(1) }),
-  aliases: z.array(z.string()),
-  category: z.string().min(1),
-});
+export interface QueryOptions {
+  country: string;
+  signal?: AbortSignal;
+}
 
-export const ProgramSchema = z.object({
-  id: z.string().regex(/^[a-z0-9-]+$/),
-  kind: z.enum(["credit-card", "club-card", "prepaid-gift-card", "bank-points", "cashback-club"]),
-  issuer: z.string().min(1),
-  names: z.object({ he: z.string().min(1), en: z.string().min(1) }),
-  requires: z.string().min(1),
-  url: z.string().url(),
-});
+/**
+ * A live adapter to one existing benefits database.
+ * Contract: one request per user question, no stored copy, no bulk crawl,
+ * and the source's own terms must permit automated access for this use.
+ */
+export interface BenefitSource {
+  id: string;
+  name: string;
+  terms_url: string;
+  attribution: string;
+  query(store: string, options: QueryOptions): Promise<SourceResult>;
+}
 
-export const OfferSchema = z.object({
-  id: z.string().regex(/^[a-z0-9-]+$/),
-  program_id: z.string(),
-  applies_to: z.object({
-    stores: z.array(z.string()).optional(),
-    categories: z.array(z.string()).optional(),
-  }),
-  channel: z.enum(["in-store", "online", "both"]),
-  mechanism: z.enum(MECHANISMS),
-  percent: z.number().positive().max(100).optional(),
-  summary: z.string().min(1),
-  conditions: z.string().min(1),
-  source_url: z.string().url().startsWith("https://"),
-  as_of: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  status: z.enum(STATUSES),
-});
-
-export const WalletSchema = z.object({
-  programs: z.array(z.string()),
-});
-
-export type Store = z.infer<typeof StoreSchema>;
-export type Program = z.infer<typeof ProgramSchema>;
-export type Offer = z.infer<typeof OfferSchema>;
-export type Wallet = z.infer<typeof WalletSchema>;
-export type Mechanism = (typeof MECHANISMS)[number];
-
-export interface Dataset {
-  stores: Store[];
-  programs: Program[];
-  offers: Offer[];
+export interface Wallet {
+  providers: string[];
 }

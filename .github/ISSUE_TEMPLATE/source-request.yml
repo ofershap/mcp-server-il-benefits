@@ -1,0 +1,19 @@
+name: Source request
+description: Propose a benefits source to connect
+labels: [source]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Source name and URL
+    validations: { required: true }
+  - type: input
+    id: terms
+    attributes:
+      label: Terms page URL
+    validations: { required: true }
+  - type: textarea
+    id: clause
+    attributes:
+      label: The clause that allows automated, per-request access (or written permission from the owner)
+    validations: { required: true }

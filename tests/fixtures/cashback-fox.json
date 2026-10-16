@@ -1,0 +1,36 @@
+{
+  "stores": [
+    {
+      "store_id": 3757143,
+      "name": "FOX | פוקס",
+      "country_code": "il",
+      "url": "https://www.gotcashback.co.il/Stores/FOX-פוקס/?utm_source=api",
+      "cashback_rates": [
+        {
+          "portal": "שופרסל-קאשבק",
+          "type": "percent",
+          "rate": 3,
+          "upto": false,
+          "location": "online",
+          "url": "https://www.gotcashback.co.il/Click/shufersal/FOX-פוקס/"
+        },
+        {
+          "portal": "Cashdo קאשדו ",
+          "type": "percent",
+          "rate": 3,
+          "upto": false,
+          "location": "online",
+          "url": "https://www.gotcashback.co.il/Click/cashdo/FOX-פוקס/"
+        },
+        {
+          "portal": "TOPCASH",
+          "type": "percent",
+          "rate": 4.5,
+          "upto": true,
+          "location": "online",
+          "url": "https://www.gotcashback.co.il/Click/topcash-il/FOX-פוקס/"
+        }
+      ]
+    }
+  ]
+}

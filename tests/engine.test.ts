@@ -1,63 +1,54 @@
 import { describe, expect, it } from "vitest";
-import { loadBundled } from "../src/data.js";
-import { bestWayToPay, findStores, normalize } from "../src/engine.js";
+import { bestWayToPay, isHeld, rank } from "../src/engine.js";
+import { createGotCashbackSource } from "../src/sources/gotcashback.js";
+import type { BenefitSource } from "../src/types.js";
+import { fakeFetch } from "./helpers.js";
 
-const data = loadBundled();
-const now = new Date("2026-10-20T00:00:00Z");
+const src = () => [createGotCashbackSource(fakeFetch())];
 
-describe("store matching", () => {
-  it("ignores quotes and spaces", () => {
-    expect(normalize("מק דונלד'ס")).toBe(normalize("מקדונלדס"));
-  });
-  it("matches Hebrew, English and aliases", () => {
-    expect(findStores("רמי לוי", data.stores)[0]?.id).toBe("rami-levy");
-    expect(findStores("FOX", data.stores)[0]?.id).toBe("fox");
-    expect(findStores("יס פלאנט", data.stores)[0]?.id).toBe("planet-cinema");
-  });
-  it("returns nothing for unknown stores", () => {
-    expect(findStores("zzzz", data.stores)).toEqual([]);
-  });
-});
-
-describe("bestWayToPay", () => {
-  it("lists held programs before programs the user does not hold", () => {
-    const res = bestWayToPay(data, "גולף", { wallet: { programs: ["isracard-top"] }, now });
-    expect(res.candidates[0]?.program.id).toBe("isracard-top");
-    expect(res.candidates[0]?.held).toBe(true);
-    expect(res.candidates.at(-1)?.held).toBe(false);
+describe("engine", () => {
+  it("ranks held providers first, then by percent", async () => {
+    const a = await bestWayToPay(src(), "Fox", { wallet: { providers: ["cashdo"] } });
+    expect(a.options[0]).toMatchObject({ provider: "Cashdo קאשדו", held: true });
+    expect(a.options[1]!.provider).toBe("CardCash.com");
   });
 
-  it("estimates the saving from the basket amount", () => {
-    const res = bestWayToPay(data, "Fox", {
-      amount: 400,
-      wallet: { programs: ["max-executive-prepaid"] },
-      now,
-    });
-    expect(res.candidates[0]?.estimated_saving).toBe(66);
-    expect(res.candidates[0]?.how_to_use).toMatch(/load/i);
+  it("estimates the saving from a basket amount", async () => {
+    const a = await bestWayToPay(src(), "Fox", { wallet: null, amount: 200 });
+    const top = a.options.find((o) => o.provider === "TOPCASH")!;
+    expect(top.estimated_saving_ils).toBe(9);
   });
 
-  it("does not turn a fee reduction into a basket saving", () => {
-    const res = bestWayToPay(data, "wolt", { amount: 100, now });
-    expect(res.candidates.every((c) => c.mechanism !== "fee-reduction")).toBe(true);
+  it("filters by channel", async () => {
+    const a = await bestWayToPay(src(), "Fox", { wallet: null, channel: "in-store" });
+    expect(a.options.every((o) => o.channel !== "online")).toBe(true);
   });
 
-  it("flags stale entries", () => {
-    const res = bestWayToPay(data, "רמי לוי", { now });
-    const hever = res.candidates.find((c) => c.program.id === "hever-club");
-    expect(hever?.caveat).toMatch(/confirm/i);
+  it("says so honestly when nothing is found", async () => {
+    const empty = [createGotCashbackSource(fakeFetch({ x: {} }))];
+    const a = await bestWayToPay(empty, "Nowhere", { wallet: null });
+    expect(a.options).toEqual([]);
+    expect(a.note).toMatch(/Do not guess/);
   });
 
-  it("says so when nothing is known", () => {
-    const res = bestWayToPay(data, "mango", { wallet: { programs: [] }, channel: "online", now });
-    expect(res.store?.id).toBe("mango");
-    const none = bestWayToPay(data, "unknown shop", { now });
-    expect(none.store).toBeNull();
-    expect(none.note).toMatch(/No store matches/);
+  it("reports a failing source without losing the others", async () => {
+    const broken: BenefitSource = {
+      id: "broken",
+      name: "Broken",
+      terms_url: "https://example.com/terms",
+      attribution: "x",
+      query: async () => {
+        throw new Error("down");
+      },
+    };
+    const a = await bestWayToPay([broken, ...src()], "Fox", { wallet: null });
+    expect(a.errors).toEqual([{ source: "broken", error: "down" }]);
+    expect(a.options.length).toBeGreaterThan(0);
   });
 
-  it("respects the channel filter", () => {
-    const res = bestWayToPay(data, "פלאנט", { channel: "online", now });
-    expect(res.candidates).toEqual([]);
+  it("matches wallet names loosely but not on one letter", () => {
+    expect(isHeld("TOPCASH", { providers: ["Top Cash"] })).toBe(true);
+    expect(isHeld("TOPCASH", { providers: ["a"] })).toBe(false);
+    expect(rank([], null)).toEqual([]);
   });
 });

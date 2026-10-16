@@ -1,37 +1,30 @@
-# Data sources and rules
+# Data sources
 
-The code is MIT. The dataset is facts about public offers, each with a link to where it was read.
+This project has no dataset. It asks existing aggregators, live, one request per user question. A source is connected only if its own terms permit that. Checked 2026-10-16 from the public pages named below. Nobody was contacted.
 
-## What goes in
+## Connected
 
-- A benefit read from the issuer's or the merchant's own public page, or from the program's published terms.
-- One entry per benefit: store or category, mechanism, percent if the source states one, conditions, `source_url` (https), `as_of` (the day you checked), `status`.
-- Press reports are allowed only as `stale-check` until an official page confirms them.
+### GotCashback (https://www.gotcashback.com/)
 
-## What stays out
+- Terms: https://www.gotcashback.com/Terms/ section 5, "AI and Automated Access". It welcomes AI assistants fetching current information to answer an end-user question.
+- Conditions we follow: attribute GotCashback and link the page (5.1); fetch at or near the request, no cached copies (5.2); no systematic copying, storing or redistribution, no training, no competing dataset (5.3); honor robots.txt and rate limits (5.4); identify accurately with a user agent (5.5).
+- Endpoint: the public MCP server at https://mcp.gotcashback.com, documented at https://www.gotcashback.co.il/mcp-server/. No authentication. We call `get_cashback_rates_by_store_name` and `get_gift_cards_by_store_name`.
+- Links returned are GotCashback's tracked links. They are passed to the user unchanged and never fetched by this server (robots.txt disallows `/Click/` and `/GiftCardClick/`).
+- Coverage: cashback portal rates and discounted gift cards. Not credit card or club benefits.
+- Revocable: section 5.6 lets GotCashback restrict access. If terms change, this adapter is removed.
 
-- Anything copied in bulk from a catalogue or app whose terms forbid automated collection or reuse. Example: Keepon's terms (section 9, September 2026) prohibit scraping and automated collection, so its store lists are not used here, even though its pages are public.
-- Anything behind a login, an SMS code or a member-only page. If a member can see it, the member can add it with the `add_local_offer` tool, and it stays on their machine.
-- Scraped or rehosted images, logos or marketing copy. Entries are short factual summaries in our own words.
-- Personal data of any kind: card numbers, balances, ID numbers.
+## Not connected, and why
 
-## Status values
+| Source                                           | Finding                                                                                                                                                                                                                                                                                               | Decision           |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| Keepon (keeponapp.com)                           | Terms section 9 forbid scraping, automated collection and access through bots, scripts or automated tools, and commercial use. Section 13 forbids copying or distributing any part without explicit written permission. No API. The "open data" page offers only a summary; the raw file is by email. | Not connected      |
+| hopala MCP                                       | Public MCP endpoint, but no reuse terms found, and its catalogue was harvested from third-party sources, some behind logins.                                                                                                                                                                          | Not connected      |
+| Fid                                              | No public API. Only third-party scrapers.                                                                                                                                                                                                                                                             | Not connected      |
+| BuyMe (community MCP)                            | BuyMe acceptance only, no licence.                                                                                                                                                                                                                                                                    | Not connected      |
+| bee.deals                                        | No API or terms found.                                                                                                                                                                                                                                                                                | Not connected      |
+| Card issuers (Max, Isracard, Cal, Poalim, Leumi) | No public APIs found.                                                                                                                                                                                                                                                                                 | Not connected      |
+| data.gov.il                                      | CKAN API exists. No benefits dataset found. Not an exhaustive search.                                                                                                                                                                                                                                 | Nothing to connect |
 
-| Status            | Meaning                                                                                                              |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `confirmed`     | Read on an official page on `as_of`                                                                                |
-| `needs-detail`  | The program is confirmed for this store, the size of the benefit is not on the page. The answer points to the source |
-| `stale-check`   | Secondary or old source. Re-confirm before relying on it                                                             |
-| `user-supplied` | Added locally by the user. Never shipped in the package                                                              |
+## Adding a source
 
-## Mechanisms
-
-`discount-at-charge`, `discount-on-load`, `cashback`, `voucher`, `bogo`, `fee-reduction`, `program-benefit`. The mechanism decides what the user should do at the till, so pick it carefully.
-
-## Freshness
-
-Answers older than 90 days carry a "confirm before you rely on it" caveat. If you see an outdated entry, open an issue or a PR with the new source.
-
-## Takedown
-
-If an issuer or merchant wants an entry changed or removed, open an issue or email the maintainer and it will be done.
+Open an issue with the source's terms page and the clause that permits automated, per-request access, or a written permission from its owner. Without one of those, it will not be merged.

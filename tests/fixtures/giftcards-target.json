@@ -1,0 +1,30 @@
+{
+  "stores": [
+    {
+      "store_id": 10211,
+      "name": "Target",
+      "country_code": "us",
+      "url": "https://www.gotcashback.com/Stores/Target/?utm_source=api",
+      "gift_cards_url": "https://www.gotcashback.com/GiftCards/Target/?utm_source=api",
+      "gift_cards": [
+        {
+          "gift_card_id": 362820,
+          "seller": "eGifter.com",
+          "type": "eGift Card",
+          "value_type": 2,
+          "url": "https://www.gotcashback.com/GiftCardClick/Target/0/362820/"
+        },
+        {
+          "gift_card_id": 5935975,
+          "seller": "CardCash.com",
+          "type": "Physical Card",
+          "value_type": 1,
+          "value": 21.82,
+          "price": 20.29,
+          "discount_percent": 7.01,
+          "url": "https://www.gotcashback.com/GiftCardClick/Target/0/5935975/"
+        }
+      ]
+    }
+  ]
+}

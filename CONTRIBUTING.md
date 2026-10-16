@@ -1,31 +1,22 @@
 # Contributing
 
-The code is small. The dataset is where help matters most.
+The code is small. Help matters most in two places: new sources and tests.
 
-## Add or fix a benefit
+## Adding a source
 
-1. Fork the repo and edit the files in `data/`: `stores.json`, `programs.json`, `offers.json`.
-2. Every offer needs a `source_url` on an official page and an `as_of` date (the day you checked it). Read [DATA_SOURCES.md](DATA_SOURCES.md) first: no bulk copying from apps, no member-only pages.
-3. Run `npm run validate-data`. It checks ids, links between files, https sources and dates.
-4. Open a PR. The template asks for the source and what you saw.
+1. Read the source's terms. It must allow automated, per-request access for this use, or its owner must have given written permission. Link the clause in your pull request.
+2. Add `src/sources/<name>.ts` implementing `BenefitSource` from `src/types.ts`: one live request per question, no cache, no stored copy, no bulk crawl, an accurate user agent, and attribution text.
+3. Register it in `src/sources/index.ts`.
+4. Add a fixture under `tests/fixtures/` and tests with a fake `fetch`. Tests must not call live services.
+5. Add a row to `DATA_SOURCES.md` with the clause and the date checked.
 
-Short summaries in your own words. Say how the benefit works (at charge, on load, voucher, cashback) in `mechanism` and put the catches in `conditions`.
+Do not add scrapers, logged-in sessions, or bundled datasets.
 
-## Add a store alias
-
-If a chain is searched under another name, add it to the store's `aliases` in Hebrew or English.
-
-## Code
+## Development
 
 ```bash
-git clone https://github.com/ofershap/mcp-server-il-benefits.git
-cd mcp-server-il-benefits
 npm install
-npm run typecheck && npm test && npm run build
+npm run typecheck && npm test && npm run lint && npm run build
 ```
 
-Commit with conventional commits (`feat:`, `fix:`, `data:`). The engine is in `src/engine.ts`, the tools in `src/server.ts`.
-
-## Out of scope
-
-Scrapers, anything that logs in to an issuer, anything that stores card numbers or balances.
+Commit with conventional commits (`feat:`, `fix:`, `docs:`). The engine is in `src/engine.ts`, the tools in `src/server.ts`.

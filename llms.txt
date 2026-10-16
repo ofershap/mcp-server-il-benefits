@@ -1,6 +1,6 @@
 # mcp-server-il-benefits
 
-> MCP server and agent skill for Israeli shoppers. Given a store and the cards and clubs the user holds, it says which one to pay with and how to use the benefit. Local-first, open dataset, a source link and a check date on every benefit.
+> Thin MCP server and agent skill for Israeli shoppers. The user says "I'm at store X"; the agent asks an existing benefits aggregator (GotCashback) live, once per question, and answers with what to do before paying (cashback link, discounted gift card), with the source and link. No scraping, no stored data, never buys anything.
 
 - Homepage: https://github.com/ofershap/mcp-server-il-benefits
 - License: MIT
@@ -13,19 +13,24 @@ Use npx package `mcp-server-il-benefits` with stdio transport (Cursor, Claude De
 
 ## Tools
 
-- best_way_to_pay: store (Hebrew or English), optional basket amount and channel. Ranked options, wallet first, with how_to_use, conditions, source_url, as_of.
-- find_store, list_programs, wallet_get, wallet_set, add_local_offer.
+- best_way_to_pay: store (Hebrew or English), optional country, basket amount, channel. Live lookup, ranked options with the user's providers first, how_to_use, link, source attribution.
+- list_sources: connected sources and their terms page.
+- wallet_get, wallet_set: local list of provider names the user uses.
+
+## Coverage
+
+Shipped source: GotCashback (terms section 5 welcomes AI agents). Covers cashback portals and discounted gift cards, a few hundred Israeli stores. It does not cover credit card or club benefits per store: those databases do not permit automated access. See DATA_SOURCES.md.
 
 ## FAQ
 
 Q: Which credit card should I use at a store in Israel?
-A: Ask best_way_to_pay with the store name. It ranks the cards and clubs in the user's wallet and explains whether the discount applies at the register, on the statement, when loading a prepaid card, or later as cashback.
+A: This tool does not know card or club benefits. It finds cashback and discounted gift cards for the store and says what to do before paying.
 
-Q: Where does the data come from?
-A: Official issuer and merchant pages, each entry with source_url and as_of. No scraping of apps or member-only catalogues. See DATA_SOURCES.md.
+Q: Does it scrape?
+A: No. One call per question to GotCashback's public MCP endpoint, with attribution and no caching.
+
+Q: Can it buy or generate codes?
+A: No. It returns steps and links only.
 
 Q: Is personal data stored?
-A: Only a local list of program ids. No card numbers, balances or ID numbers.
-
-Q: Is the data complete?
-A: No. Coverage is small and grows through pull requests. Answers say when a benefit is unconfirmed or old.
+A: Only a local list of provider names. No card numbers or balances.

@@ -1,21 +1,16 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
-import { configDir } from "./data.js";
-import {
-  OfferSchema,
-  ProgramSchema,
-  StoreSchema,
-  WalletSchema,
-  type Dataset,
-  type Wallet,
-} from "./types.js";
+import type { Wallet } from "./types.js";
 
-const LocalSchema = z.object({
-  stores: z.array(StoreSchema).default([]),
-  programs: z.array(ProgramSchema).default([]),
-  offers: z.array(OfferSchema).default([]),
-});
+const WalletSchema = z.object({ providers: z.array(z.string().min(1).max(80)).max(100) });
+
+export function configDir(): string {
+  return (
+    process.env.IL_BENEFITS_HOME ??
+    join(process.env.HOME ?? ".", ".config", "mcp-server-il-benefits")
+  );
+}
 
 export function loadWallet(dir = configDir()): Wallet | null {
   const path = join(dir, "wallet.json");
@@ -24,28 +19,7 @@ export function loadWallet(dir = configDir()): Wallet | null {
 }
 
 export function saveWallet(wallet: Wallet, dir = configDir()): void {
+  const clean = WalletSchema.parse(wallet);
   mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, "wallet.json"), JSON.stringify(wallet, null, 2) + "\n");
-}
-
-export function unknownPrograms(ids: string[], data: Dataset): string[] {
-  return ids.filter((id) => !data.programs.some((p) => p.id === id));
-}
-
-/** Append a user-supplied offer (and optionally its program and store) to the local data file. */
-export function addLocal(
-  entry: { stores?: unknown[]; programs?: unknown[]; offers?: unknown[] },
-  dir = configDir(),
-): void {
-  const path = join(dir, "local-data.json");
-  const current = existsSync(path)
-    ? LocalSchema.parse(JSON.parse(readFileSync(path, "utf8")))
-    : LocalSchema.parse({});
-  const next = LocalSchema.parse({
-    stores: [...current.stores, ...(entry.stores ?? [])],
-    programs: [...current.programs, ...(entry.programs ?? [])],
-    offers: [...current.offers, ...(entry.offers ?? [])],
-  });
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(path, JSON.stringify(next, null, 2) + "\n");
+  writeFileSync(join(dir, "wallet.json"), JSON.stringify(clean, null, 2) + "\n");
 }

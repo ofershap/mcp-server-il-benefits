@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  MCP server and agent skill that answers from <em>your</em> wallet.<br>
-  Local-first. Open dataset. A source link and a date on every benefit.
+  A thin MCP server and agent skill between your agent and an existing benefits database.<br>
+  Live per-question lookup. No scraping. No stored copy. Source and link on every answer.
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 npx mcp-server-il-benefits
 ```
 
-> Works with Claude Desktop, Cursor, VS Code Copilot, and any MCP client. No API key. No account. Your wallet never leaves your machine.
+> Works with Claude Desktop, Cursor, VS Code Copilot, and any MCP client. No API key. No account. Your wallet (a list of names) never leaves your machine.
 
 <p align="center">
   <a href="cursor://anysphere.cursor-deeplink/mcp/install?name=il-benefits&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1jcC1zZXJ2ZXItaWwtYmVuZWZpdHMiXX0="><img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Install in Cursor" height="32" /></a>
@@ -36,26 +36,37 @@ npx mcp-server-il-benefits
 
 ## Why this exists
 
-A normal Israeli wallet holds a bank card, a club card, maybe a prepaid gift card from the employer, and a few apps. Each one has a deal at the same chain. One takes the discount off your credit card statement. One only works if you loaded a prepaid card last week. One pays cashback next month. One is a voucher you had to buy before you walked in.
+A friend of the author went to a mall, joined a club, loaded a prepaid card with 250 shekels for 187.5, bought a 100 shekel voucher for 59, and noticed that at every till another couple was fiddling with coupons. The savings are real. Finding them at the till is the problem.
 
-So at the till you pick the card on top and never find out.
+The idea: you tell your agent "I'm at store X", and it checks what is available and tells you what to do **before** you pay. Sometimes that is a card. More often it is "buy this discounted gift card first" or "open the store through this cashback link".
 
-The benefits are public, but they sit in a dozen issuer sites and apps, in different words, with different mechanics. "20% off" means something else depending on whether it is taken at the register, credited later, or given when you load a card. That last part is what decides which card you should hold up, and no catalogue answers it.
+The data for that already exists, aggregated by other people. Building a second database would be pointless and would copy someone else's work. So this project is only the connection: a small MCP server and a skill that let your agent ask an existing aggregator one question at a time, and answer you with the source and the link.
 
-This server does. You tell your agent which cards and clubs you hold. You ask "I'm at Fox, what do I pay with?" It checks your wallet first, tells you which card to use and **how** (pay with this card, or load that one first, or buy the voucher), and links the page where each benefit comes from.
+## What it does and does not do
+
+- Asks the connected source live, once per question. Nothing is cached, crawled or stored.
+- Ranks results with the providers you said you use first (cashback portals, gift card sellers). The wallet is a local list of names.
+- Always returns the source attribution and the original link, as the source's terms require.
+- Never buys anything, never generates a code, never logs in for you. You click the link.
+- Says so when a store has no result, instead of guessing.
+
+## Coverage today (read this first)
+
+The only source shipped is [GotCashback](https://www.gotcashback.com/), because its terms explicitly welcome AI agents that fetch current information to answer a user's question (section 5). It covers cashback portals and discounted gift cards. In Israel it lists a few hundred stores, so many chains return nothing.
+
+It does **not** know the benefits of your credit card, bank club or employer club at a given store. The databases that hold those are third-party sites whose terms do not allow automated access, so they are not connected. See [DATA_SOURCES.md](DATA_SOURCES.md) for each source, the terms clause that decided it, and the date it was checked. The server is built so another source can be added the day its owner permits it.
 
 ## What makes it different
 
-|                                                                     | mcp-server-il-benefits                                 | [hopala MCP](https://hopala.io/en/blog/benefits-club-mcp.html) | [ClawSavings](https://github.com/yhyatt/ClawSavings) | [GotCashback MCP](https://www.gotcashback.co.il/mcp-server/) | Keepon / FID apps                      |
-| ------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------- |
-| Question it answers                                                 | Which of **my** cards at this store, and how to use it | Search a catalogue of club offers                              | Best card or voucher per store category              | Cashback rates across portals                                | Store coupons and club lists in an app |
-| Knows your wallet                                                   | Yes, local file                                        | No                                                             | No                                                   | No                                                           | App only                               |
-| Says how to use the benefit (at charge, on load, voucher, cashback) | Yes                                                    | In the terms text                                              | Partly                                               | Cashback only                                                | No                                     |
-| Data                                                                | Open JSON in this repo, PRs welcome                    | Hosted catalogue                                               | Static JSON in the skill                             | Hosted                                                       | Closed                                 |
-| Source URL and check date per benefit                               | Required by the schema                                 | Varies                                                         | Per source                                           | n/a                                                          | n/a                                    |
-| Runs                                                                | On your machine                                        | Hosted server                                                  | In your agent                                        | Hosted server                                                | Phone app                              |
+|                                         | mcp-server-il-benefits                                          | [hopala MCP](https://hopala.io/en/blog/benefits-club-mcp.html) | [GotCashback MCP](https://www.gotcashback.co.il/mcp-server/) | [ClawSavings](https://github.com/yhyatt/ClawSavings) |
+| --------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| What it is                              | Mediator with a wallet and a "what do I do before I pay" answer | Hosted catalogue of club offers                                | Hosted cashback and gift card database                       | Static skill with category tips                      |
+| Knows what you use                      | Yes, local file                                                 | No                                                             | No                                                           | No                                                   |
+| Says when to act (before paying, after) | Yes                                                             | In terms text                                                  | Cashback only                                                | Partly                                               |
+| Own dataset                             | None                                                            | Yes                                                            | Yes                                                          | Yes                                                  |
+| Source and link on every answer         | Yes                                                             | Varies                                                         | Yes                                                          | Per source                                           |
 
-These projects are good at what they do. This one is the "what do I pay with right now" layer on top.
+GotCashback's own MCP server is the better choice if you only want cashback rates in a chat. This project adds the wallet, the "before you pay" framing and a place to plug in more sources.
 
 ## Quick start
 
@@ -76,7 +87,7 @@ Add to `.cursor/mcp.json`:
 
 ### Claude Desktop
 
-Add to `claude_desktop_config.json`: the same block as above.
+Add the same block to `claude_desktop_config.json`.
 
 ### Claude Code
 
@@ -100,62 +111,63 @@ Add to user settings or `.vscode/mcp.json`:
 
 ## First run
 
-1. Ask: "List the programs in il-benefits."
-2. Tell your agent which ones you hold: "I have IsracardTop and the HiTech Zone card. Save that as my wallet."
-3. Ask at the store: "I'm at Rami Levy, buying about 600 shekels. What do I pay with?"
+1. Tell your agent what you use: "I use the Cashdo and TopCash portals. Save that as my wallet."
+2. Ask at the store: "I'm at Fox, buying about 400 shekels. What should I do before I pay?"
 
 ## Tools
 
-| Tool                        | What it does                                                                                                                                                         |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `best_way_to_pay`           | Store (Hebrew or English), optional basket size and channel. Returns ranked options, your wallet first, with how to use each, conditions, source link and check date |
-| `find_store`                | Match a chain by name or alias                                                                                                                                       |
-| `list_programs`             | Cards, clubs and programs in the dataset, who is eligible, where the details live                                                                                    |
-| `wallet_get` / `wallet_set` | Read or replace the list of programs you hold (ids only, saved locally)                                                                                              |
-| `add_local_offer`           | Save a benefit you know about (employer club, bank app) so it is ranked next time. Local file only                                                                   |
+| Tool                        | What it does                                                                                                                                                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `best_way_to_pay`           | Store (Hebrew or English), optional country, basket size and channel. One live request per connected source. Returns ranked options, your providers first, with how to use each, a link and the source attribution |
+| `list_sources`              | The connected sources, their terms page and attribution text                                                                                                                                                       |
+| `wallet_get` / `wallet_set` | Read or replace the list of provider names you use. Names only, saved locally                                                                                                                                      |
 
 ## Examples
 
-- "I'm at Fox. Which card should I pay with?"
-- "אני בפלאנט, מה הכי משתלם לשלם?"
-- "Does anything give me money back at Rami Levy?"
-- "I know my employer club gives 10% at Aroma. Add that."
-
-## Where the data comes from, and what it does not have yet
-
-The bundled dataset is small on purpose. It holds benefits that were read from official issuer pages (and, where marked, one press report), each with a source URL and the date it was checked. Some entries are marked `needs-detail`: the issuer lists the partner chain but not the size of the benefit, so the dataset points you to the page instead of guessing a number.
-
-It does not scrape club catalogues, log in to anything, or copy lists from apps whose terms forbid it. The reasoning and the rules for contributors are in [DATA_SOURCES.md](DATA_SOURCES.md).
-
-The honest state: coverage is thin, and it grows with pull requests. If you hold a card the dataset lacks, adding it takes one JSON entry and a link. See [CONTRIBUTING.md](CONTRIBUTING.md).
+- "I'm at Fox. What should I do before I pay?"
+- "אני בפוקס, איך הכי משתלם לשלם?"
+- "Is there a discounted gift card for this store?"
+- "Which of my cashback portals pays the most here?"
 
 ## Privacy
 
-- The wallet is a list of program ids in `~/.config/mcp-server-il-benefits/wallet.json` (override with `IL_BENEFITS_HOME`).
-- No card numbers, balances or ID numbers are asked for or stored. A test pins that.
-- No network calls at runtime. Everything is read from local files.
+- The wallet is a list of names in `~/.config/mcp-server-il-benefits/wallet.json` (override with `IL_BENEFITS_HOME`).
+- No card numbers, balances or ID numbers are asked for or stored.
+- The only network call is the store name and a country code, sent to the connected source when you ask. Nothing else leaves your machine.
 
 ## Agent skill
 
-`skills/which-card-to-pay/SKILL.md` teaches an agent when to call these tools, how to read the `how_to_use` field, and to always tell you to confirm at checkout. This repo is an [Agent Plugins](https://agent-plugins.org) 1.0.0 package: `plugin.json`, `mcp.json` and `skills/` ship together.
+`skills/which-card-to-pay/SKILL.md` teaches an agent the in-store flow: read the wallet, ask for the store, answer with the best action and when to take it, show the links, and say when nothing was found. This repo is an [Agent Plugins](https://agent-plugins.org) 1.0.0 package: `plugin.json`, `mcp.json` and `skills/`.
+
+## Adding a source
+
+A source is one file implementing `BenefitSource` in `src/sources/`. It must make one live request per question and keep no copy. It may be added only if the source's own terms allow automated, per-request access, or the owner gave written permission. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## FAQ
 
 ### What is mcp-server-il-benefits?
 
-An MCP server that tells you which Israeli credit card, club card, prepaid benefits card or voucher to use at a given store, based on the cards and clubs you hold.
+An MCP server and agent skill that lets an AI agent ask an existing benefits aggregator, live, what discount, cashback or gift card deal applies at a store in Israel, and tells you what to do before you pay.
 
-### How is it different from a coupon app?
+### Which credit card should I use at a store in Israel?
 
-Coupon apps store codes you add. This ranks the benefits of the programs you already hold, per store, and says whether the discount happens at the register, on a statement, when you load a card, or later as cashback.
+This tool cannot tell you yet. It does not have credit card or club data, because those databases do not permit automated access. It finds cashback and discounted gift cards. Your card issuer's app is still the place for card benefits.
 
-### Is the data complete or live?
+### Does it scrape websites?
 
-No. It is a sourced, dated, community-extendable dataset. Each answer carries its source link and check date. Treat the result as a first answer and confirm at checkout.
+No. It calls the public MCP endpoint that GotCashback publishes for AI assistants, one request per question, and follows its attribution and no-caching rules.
+
+### Can it buy the gift card or generate a coupon code for me?
+
+No, by design. It returns the link and the steps. You decide and you pay.
+
+### Is it commercial?
+
+No. MIT licensed, no ads, no affiliate links of its own. The links returned are the source's own tracked links, shown unchanged, as its terms require.
 
 ### Does it work in Hebrew?
 
-Yes. Store names and aliases match in Hebrew and English, and program names carry both.
+Yes. Store names are passed through as you type them.
 
 ### Do I need API keys or an account?
 
@@ -170,6 +182,8 @@ npm install
 npm test
 npm run build
 ```
+
+Tests use recorded fixtures and a fake network. No test calls a live service.
 
 ## See also
 

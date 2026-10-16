@@ -2,8 +2,11 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "mcp-server-il-benefits",
   "version": "0.1.0",
-  "description": "Which Israeli card, club or voucher to pay with at a given store, from the cards you hold. MCP server plus agent skill.",
-  "author": { "name": "Ofer Shapira", "url": "https://github.com/ofershap" },
+  "description": "Ask an existing benefits aggregator, live, what to do before you pay at a store in Israel. Thin MCP server plus agent skill. No scraping, no stored data.",
+  "author": {
+    "name": "Ofer Shapira",
+    "url": "https://github.com/ofershap"
+  },
   "homepage": "https://github.com/ofershap/mcp-server-il-benefits",
   "repository": "https://github.com/ofershap/mcp-server-il-benefits",
   "license": "MIT",
